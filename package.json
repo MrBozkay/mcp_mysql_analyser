@@ -1,5 +1,8 @@
 {
-  "name": "mcp-mysql-analyzer",
+  "name": "@MrBozkay/mcp_mysql_analyser",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "version": "1.0.0",
   "description": "MCP-based MySQL analysis server for schema discovery, profiling, and analytics",
   "main": "dist/index.js",
