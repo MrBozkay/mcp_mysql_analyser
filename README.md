@@ -143,6 +143,61 @@ These tools generate SQL queries for churn analysis. They return a SQL string th
 - `generate_mrr_churn_sql(params)`: Generates SQL for an MRR churn analysis.
 - `suggest_churn_mapping(params)`: Suggests potential user ID and timestamp columns for churn analysis.
 
+## Usage as an MCP Server
+
+Once published to npm, you can use this project as an MCP server with `npx`.
+
+### For Claude Desktop
+
+Add the following to your `claude_desktop_config.json` file:
+
+```json
+{
+  "mcpServers": {
+    "mcp_mysql_analyzer": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-mysql-analyzer"
+      ],
+      "env": {
+        "MYSQL_HOST": "127.0.0.1",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "your_username",
+        "MYSQL_PASS": "your_password",
+        "MYSQL_DB": "your_database"
+      }
+    }
+  }
+}
+```
+
+### For Cursor IDE (Version: 0.47+)
+
+Add this to your `mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "MySQL": {
+      "command": "npx",
+      "args": [
+        "mcprunner",
+        "MYSQL_HOST=127.0.0.1",
+        "MYSQL_PORT=3306",
+        "MYSQL_USER=root",
+        "MYSQL_PASS=root",
+        "MYSQL_DB=demostore",
+        "--",
+        "npx",
+        "-y",
+        "mcp-mysql-analyzer"
+      ]
+    }
+  }
+}
+```
+
 ## Development
 
 ### Running Tests
