@@ -1,0 +1,10 @@
+dist/
+node_modules/
+.env
+.DS_Store
+.vscode/
+*.log
+.idea/
+*.iml
+*.swp
+GEMINI.md
