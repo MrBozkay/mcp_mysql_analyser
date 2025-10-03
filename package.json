@@ -21,6 +21,14 @@
   ],
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/mcp-mysql-analyzer.git"
+  },
+  "homepage": "https://github.com/your-username/mcp-mysql-analyzer#readme",
+  "bugs": {
+    "url": "https://github.com/your-username/mcp-mysql-analyzer/issues"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.2",
     "dotenv": "^17.2.3",
