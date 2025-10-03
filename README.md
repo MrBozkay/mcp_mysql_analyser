@@ -158,7 +158,7 @@ Add the following to your `claude_desktop_config.json` file:
       "command": "npx",
       "args": [
         "-y",
-        "mcp-mysql-analyzer"
+        "@MrBozkay/mcp_mysql_analyser"
       ],
       "env": {
         "MYSQL_HOST": "127.0.0.1",
@@ -191,7 +191,7 @@ Add this to your `mcp.json`:
         "--",
         "npx",
         "-y",
-        "mcp-mysql-analyzer"
+        "@MrBozkay/mcp_mysql_analyser"
       ]
     }
   }
