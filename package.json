@@ -17,17 +17,19 @@
     "mcp",
     "mysql",
     "analytics",
-    "profiling"
+    "profiling",
+    "schema",
+    "discovery"
   ],
   "author": "",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/mcp-mysql-analyzer.git"
+    "url": "git+https://github.com/MrBozkay/mcp_mysql_analyser.git"
   },
-  "homepage": "https://github.com/your-username/mcp-mysql-analyzer#readme",
+  "homepage": "https://github.com/MrBozkay/mcp_mysql_analyser#readme",
   "bugs": {
-    "url": "https://github.com/your-username/mcp-mysql-analyzer/issues"
+    "url": "https://github.com/MrBozkay/mcp_mysql_analyser/issues"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.2",
