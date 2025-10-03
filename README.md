@@ -83,198 +83,65 @@ You can also run the server in a Docker container.
      mcp-mysql-analyzer
    ```
 
-## Connecting as an MCP
+## Using the Client
 
-To use this server as a custom tool for Gemini, you need to configure your Gemini application to connect to the server's standard input/output.
+This project includes a command-line client to interact with the server.
 
-Here is an example of how you might configure this in a Node.js application:
+### Listing Available Tools
 
-```javascript
-const { spawn } = require('child_process');
+To see a list of all available tools, run:
 
-// Start the MCP server process
-const mcpServer = spawn('npm', ['start'], { 
-  cwd: '/path/to/mcp-mysql-analyzer',
-  stdio: ['pipe', 'pipe', 'inherit'] 
-});
-
-// Now you can communicate with the server over mcpServer.stdin and mcpServer.stdout
-
-// Example of sending a request
-const request = {
-  tool_code: 'default_api.listDatabases()'
-};
-mcpServer.stdin.write(JSON.stringify(request) + '\n');
-
-// Listen for responses
-mcpServer.stdout.on('data', (data) => {
-  console.log(`Received response: ${data}`);
-});
+```bash
+node dist/client.js list
 ```
+
+### Calling a Tool
+
+To call a specific tool, use the `call` command, followed by the tool name and its arguments in `key=value` format.
+
+- **Syntax:**
+  ```bash
+  node dist/client.js call <tool_name> [argument1=value1] [argument2=value2] ...
+  ```
+
+- **Example: List tables in a database**
+  ```bash
+  node dist/client.js call list_tables database=playbox
+  ```
+
+- **Example: Find duplicates with a JSON argument**
+  ```bash
+  node dist/client.js call find_duplicates database=playbox table=clients columns='["display_name"]'
+  ```
 
 ## Available Tools
 
 ### Schema Tools
 
-#### `connect(params)`
-Connects to the MySQL database.
-
-- **Example:**
-  ```
-  default_api.connect({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: 'password',
-    database: 'my_db'
-  })
-  ```
-
-#### `listDatabases()`
-Lists all databases.
-
-- **Example:**
-  ```
-  default_api.listDatabases()
-  ```
-
-#### `listTables(params)`
-Lists all tables in a database.
-
-- **Example:**
-  ```
-  default_api.listTables({ database: 'my_db' })
-  ```
-
-#### `getTableInfo(params)`
-Gets detailed information about a table, including columns, indexes, and foreign keys.
-
-- **Example:**
-  ```
-  default_api.getTableInfo({ table: 'users' })
-  ```
-
-#### `getTableDDL(params)`
-Gets the `CREATE TABLE` statement for a table.
-
-- **Example:**
-  ```
-  default_api.getTableDDL({ table: 'users' })
-  ```
+- `connect(params)`: Connects to the MySQL database.
+- `list_databases()`: Lists all databases.
+- `list_tables(params)`: Lists all tables in a database.
+- `table_info(params)`: Gets detailed information about a table, including columns, indexes, and foreign keys.
+- `get_table_ddl(params)`: Gets the `CREATE TABLE` statement for a table.
 
 ### Analysis Tools
 
-#### `profileTable(params)`
-Profiles a table with basic statistics, including row count, column stats, and sample data.
-
-- **Example:**
-  ```
-  default_api.profileTable({ table: 'users', sample_limit: 100 })
-  ```
-
-#### `analyzeNumericColumns(params)`
-Analyzes all numeric columns in a table and returns statistics like min, max, average, and standard deviation.
-
-- **Example:**
-  ```
-  default_api.analyzeNumericColumns({ table: 'sales', sample_limit: 1000 })
-  ```
-
-#### `getValueDistribution(params)`
-Gets the value distribution for a column.
-
-- **Example:**
-  ```
-  default_api.getValueDistribution({ table: 'users', column: 'country', topk: 20 })
-  ```
-
-#### `detectOutliers(params)`
-Detects outliers in a numeric column using the Z-score method.
-
-- **Example:**
-  ```
-  default_api.detectOutliers({ table: 'orders', column: 'amount', z_threshold: 3 })
-  ```
-
-#### `findDuplicates(params)`
-Finds duplicate rows based on a combination of columns.
-
-- **Example:**
-  ```
-  default_api.findDuplicates({ table: 'customers', columns: ['email', 'phone_number'] })
-  ```
-
-#### `getNullReport(params)`
-Generates a report of NULL values for all columns in a table.
-
-- **Example:**
-  ```
-  default_api.getNullReport({ table: 'products' })
-  ```
+- `profile_table(params)`: Profiles a table with basic statistics, including row count, column stats, and sample data.
+- `analyze_numeric_columns(params)`: Analyzes all numeric columns in a table and returns statistics like min, max, average, and standard deviation.
+- `get_value_distribution(params)`: Gets the value distribution for a column.
+- `detect_outliers(params)`: Detects outliers in a numeric column using the Z-score method.
+- `find_duplicates(params)`: Finds duplicate rows based on a combination of columns.
+- `get_null_report(params)`: Generates a report of NULL values for all columns in a table.
 
 ### Churn Tools
 
 These tools generate SQL queries for churn analysis. They return a SQL string that you can then execute.
 
-#### `generateChurnSqlBasic(params)`
-Generates SQL for a basic monthly churn analysis.
-
-- **Example:**
-  ```
-  default_api.generateChurnSqlBasic({
-    user_table: 'users',
-    user_id_col: 'id',
-    activity_table: 'user_activity',
-    activity_user_col: 'user_id',
-    activity_time_col: 'timestamp'
-  })
-  ```
-
-#### `generateCohortSql(params)`
-Generates SQL for a cohort retention analysis.
-
-- **Example:**
-  ```
-  default_api.generateCohortSql({
-    activity_table: 'user_activity',
-    activity_user_col: 'user_id',
-    activity_time_col: 'timestamp',
-    observation_months: 12
-  })
-  ```
-
-#### `generateSurvivalSql(params)`
-Generates SQL for a Kaplan-Meier survival curve analysis.
-
-- **Example:**
-  ```
-  default_api.generateSurvivalSql({
-    activity_table: 'user_activity',
-    activity_user_col: 'user_id',
-    activity_time_col: 'timestamp'
-  })
-  ```
-
-#### `generateMrrChurnSql(params)`
-Generates SQL for an MRR churn analysis.
-
-- **Example:**
-  ```
-  default_api.generateMrrChurnSql({
-    revenue_table: 'subscriptions',
-    rev_user_col: 'user_id',
-    rev_amount_col: 'mrr',
-    rev_time_col: 'timestamp'
-  })
-  ```
-
-#### `suggestChurnMapping(params)`
-Suggests potential user ID and timestamp columns for churn analysis.
-
-- **Example:**
-  ```
-  default_api.suggestChurnMapping({ tables: ['users', 'user_activity'] })
-  ```
+- `generate_churn_sql_basic(params)`: Generates SQL for a basic monthly churn analysis.
+- `generate_cohort_sql(params)`: Generates SQL for a cohort retention analysis.
+- `generate_survival_sql(params)`: Generates SQL for a Kaplan-Meier survival curve analysis.
+- `generate_mrr_churn_sql(params)`: Generates SQL for an MRR churn analysis.
+- `suggest_churn_mapping(params)`: Suggests potential user ID and timestamp columns for churn analysis.
 
 ## Development
 
@@ -285,4 +152,3 @@ To run the test suite:
 ```bash
 npm test
 ```
-"# mcp_mysql_analyser" 

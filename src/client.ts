@@ -1,4 +1,3 @@
-
 import { spawn } from 'child_process';
 import { randomUUID } from 'crypto';
 
@@ -25,13 +24,12 @@ function sendRequest(method: string, params: any) {
 server.stdout.on('data', (data) => {
   const messages = data.toString().trim().split('\n');
   messages.forEach((message: string) => {
+    if (message.length === 0) return;
     try {
       const parsed = JSON.parse(message);
       console.log('Server > Received:', JSON.stringify(parsed, null, 2));
     } catch (e) {
-      if (message.length > 0) {
-        console.log(`Server > Received (raw): ${message}`);
-      }
+      console.log(`Server > Received (raw): ${message}`);
     }
   });
 });
@@ -52,23 +50,31 @@ async function main() {
   await new Promise(resolve => setTimeout(resolve, 2000));
 
   const args = process.argv.slice(2);
-  const method = args[0];
-  const paramsStr = args[1];
+  const command = args[0];
 
-  if (method && paramsStr) {
+  if (command === 'list') {
+    console.log('\n--- Listing available tools ---');
+    sendRequest('tools/list', {});
+  } else if (command === 'call') {
+    const toolName = args[1];
+    if (!toolName) {
+      console.error("Error: Tool name not specified for 'call' command.");
+      server.kill();
+      return;
+    }
     try {
-        const params = JSON.parse(paramsStr);
-        console.log(`\n--- Calling method: ${method} ---`);
-        sendRequest(method, params);
-    } catch (e) {
-        console.error('Error: Invalid JSON for params argument');
-        server.kill();
-        return;
+      const params = parseArgs(args.slice(2));
+      console.log(`\n--- Calling tool: ${toolName} ---`);
+      sendRequest('tools/call', { name: toolName, arguments: params });
+    } catch (e: any) {
+      console.error(`Error: ${e.message}`);
+      server.kill();
+      return;
     }
   } else {
-    console.log('\n--- Usage: node dist/client.js <method> \'<params_json>\' ---');
-    console.log('\n--- Defaulting to tools/list ---');
-    sendRequest('tools/list', {});
+    console.log('Usage: node dist/client.js [list|call <tool_name> <args>]');
+    server.kill();
+    return;
   }
 
   // Keep the client running to receive the response
@@ -78,4 +84,27 @@ async function main() {
   server.kill();
 }
 
-main();
+function parseArgs(args: string[]): Record<string, any> {
+  const params: Record<string, any> = {};
+  for (const arg of args) {
+    const parts = arg.split('=');
+    if (parts.length !== 2) {
+      throw new Error(`Invalid argument format: ${arg}`);
+    }
+    const [key, value] = parts;
+    try {
+      // Try to parse as JSON (e.g., numbers, booleans, arrays, objects)
+      params[key] = JSON.parse(value);
+    } catch (e) {
+      // If not valid JSON, treat as plain string
+      params[key] = value;
+    }
+  }
+  return params;
+}
+
+main().catch(err => {
+  console.error('Unhandled error in client:', err);
+  server.kill();
+  process.exit(1);
+});
