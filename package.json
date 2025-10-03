@@ -1,13 +1,10 @@
 {
   "name": "@mrbozkay/mcp_mysql_analyser",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP-based MySQL analysis server for schema discovery, profiling, and analytics",
   "main": "dist/index.js",
   "bin": {
-    "mcp-mysql-analyzer": "./dist/server.js"
+    "mcp-mysql-analyzer": "dist/server.js"
   },
   "type": "module",
   "scripts": {

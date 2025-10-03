@@ -1,8 +1,24 @@
 # MCP Server for MySQL
 
+[![NPM Version](https://img.shields.io/npm/v/@mrbozkay/mcp_mysql_analyser.svg)](https://www.npmjs.com/package/@mrbozkay/mcp_mysql_analyser)
+[![License](https://img.shields.io/github/license/MrBozkay/mcp_mysql_analyser.svg)](https://github.com/MrBozkay/mcp_mysql_analyser/blob/main/LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/MrBozkay/mcp_mysql_analyser.svg)](https://github.com/MrBozkay/mcp_mysql_analyser/commits/main)
+[![Repo Size](https://img.shields.io/github/repo-size/MrBozkay/mcp_mysql_analyser.svg)](https://github.com/MrBozkay/mcp_mysql_analyser)
+
 **MCP Server for MySQL** is a powerful tool that bridges the gap between Large Language Models (LLMs) like Claude and your MySQL databases. It allows you to interact with your database using natural language, inspect schemas, execute queries, and perform data analysis without writing a single line of SQL.
 
 This tool is designed for developers, data analysts, and database administrators who want to leverage the power of AI for database management and exploration.
+
+## Table of Contents
+
+- [Key Features](#key-features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [As a Command-Line Tool](#as-a-command-line-tool)
+  - [As an MCP Server](#as-an-mcp-server)
+- [Available Tools](#available-tools)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Key Features
 
@@ -115,22 +131,24 @@ Add this to your `mcp.json`:
 
 ## Available Tools
 
-- `connect(params)`: Connects to the MySQL database.
-- `list_databases()`: Lists all databases.
-- `list_tables(params)`: Lists all tables in a database.
-- `table_info(params)`: Gets detailed information about a table.
-- `get_table_ddl(params)`: Gets the `CREATE TABLE` statement for a table.
-- `profile_table(params)`: Profiles a table with basic statistics.
-- `analyze_numeric_columns(params)`: Analyzes numeric columns in a table.
-- `get_value_distribution(params)`: Gets the value distribution for a column.
-- `detect_outliers(params)`: Detects outliers in a numeric column.
-- `find_duplicates(params)`: Finds duplicate rows based on a combination of columns.
-- `get_null_report(params)`: Generates a report of NULL values for all columns in a table.
-- `generate_churn_sql_basic(params)`: Generates SQL for a basic monthly churn analysis.
-- `generate_cohort_sql(params)`: Generates SQL for a cohort retention analysis.
-- `generate_survival_sql(params)`: Generates SQL for a Kaplan-Meier survival curve analysis.
-- `generate_mrr_churn_sql(params)`: Generates SQL for an MRR churn analysis.
-- `suggest_churn_mapping(params)`: Suggests potential user ID and timestamp columns for churn analysis.
+| Tool | Description |
+| --- | --- |
+| `connect(params)` | Connects to the MySQL database. |
+| `list_databases()` | Lists all databases. |
+| `list_tables(params)` | Lists all tables in a database. |
+| `table_info(params)` | Gets detailed information about a table. |
+| `get_table_ddl(params)` | Gets the `CREATE TABLE` statement for a table. |
+| `profile_table(params)` | Profiles a table with basic statistics. |
+| `analyze_numeric_columns(params)` | Analyzes numeric columns in a table. |
+| `get_value_distribution(params)` | Gets the value distribution for a column. |
+| `detect_outliers(params)` | Detects outliers in a numeric column. |
+| `find_duplicates(params)` | Finds duplicate rows based on a combination of columns. |
+| `get_null_report(params)` | Generates a report of NULL values for all columns in a table. |
+| `generate_churn_sql_basic(params)` | Generates SQL for a basic monthly churn analysis. |
+| `generate_cohort_sql(params)` | Generates SQL for a cohort retention analysis. |
+| `generate_survival_sql(params)` | Generates SQL for a Kaplan-Meier survival curve analysis. |
+| `generate_mrr_churn_sql(params)` | Generates SQL for an MRR churn analysis. |
+| `suggest_churn_mapping(params)` | Suggests potential user ID and timestamp columns for churn analysis. |
 
 ## Contributing
 
