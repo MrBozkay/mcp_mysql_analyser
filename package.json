@@ -1,5 +1,5 @@
 {
-  "name": "@MrBozkay/mcp_mysql_analyser",
+  "name": "@mrbozkay/mcp_mysql_analyser",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },

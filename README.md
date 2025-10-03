@@ -1,153 +1,68 @@
-# MySQL Analysis Server for Gemini
+# MCP Server for MySQL
 
-This project provides a set of tools for analyzing and interacting with a MySQL database, designed to be used as a custom tool server for Gemini.
+**MCP Server for MySQL** is a powerful tool that bridges the gap between Large Language Models (LLMs) like Claude and your MySQL databases. It allows you to interact with your database using natural language, inspect schemas, execute queries, and perform data analysis without writing a single line of SQL.
 
-It allows you to connect to a MySQL database, explore the schema, analyze table profiles, and generate complex SQL queries for churn analysis.
+This tool is designed for developers, data analysts, and database administrators who want to leverage the power of AI for database management and exploration.
 
-## Getting Started
+## Key Features
 
-### Prerequisites
+- **Natural Language Interaction:** Interact with your database using plain English.
+- **Schema Inspection:** Allow LLMs to understand your database structure without manual explanations.
+- **SQL Query Execution:** Send SQL queries directly to your MySQL database from your conversations with an LLM.
+- **Data Analysis:** Have an LLM analyze your database data and return insights.
 
-- Node.js (v18 or higher)
-- npm
-- A running MySQL database
+## Installation
 
-### Installation
+This package is hosted on the GitHub Packages registry. To install it, you first need to authenticate with GitHub Packages.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/mcp-mysql-analyzer.git
-   cd mcp-mysql-analyzer
-   ```
+1.  **Authenticate with GitHub Packages**
 
-2. Install the dependencies:
-   ```bash
-   npm install
-   ```
+    Create a `.npmrc` file in your home directory (or in your project directory) and add the following lines. Replace `YOUR_PAT` with a [Personal Access Token](https://github.com/settings/tokens) that has the `read:packages` scope.
 
-### Configuration
+    ```
+    //npm.pkg.github.com/:_authToken=YOUR_PAT
+    @MrBozkay:registry=https://npm.pkg.github.com/
+    ```
 
-1. Create a `.env` file by copying the example file:
-   ```bash
-   cp .env.example .env
-   ```
+2.  **Install the Package**
 
-2. Edit the `.env` file with your MySQL database connection details:
-   ```
-   MYSQL_HOST=your_mysql_host
-   MYSQL_PORT=your_mysql_port
-   MYSQL_USER=your_mysql_user
-   MYSQL_PASSWORD=your_mysql_password
-   MYSQL_DB=your_mysql_database
-   ```
+    You can now install the package globally using npm:
 
-## Running the Server
+    ```bash
+    npm install -g @mrbozkay/mcp_mysql_analyser
+    ```
 
-### Development
+    This will make the `mcp-mysql-analyzer` command available in your terminal.
 
-To run the server in development mode with hot-reloading:
+## Usage
 
-```bash
-npm run dev
-```
+### As a Command-Line Tool
 
-### Production
+You can use the `mcp-mysql-analyzer` command-line tool to interact with your database.
 
-1. Build the TypeScript code:
-   ```bash
-   npm run build
-   ```
+-   **List Available Tools:**
 
-2. Start the server:
-   ```bash
-   npm start
-   ```
+    ```bash
+    mcp-mysql-analyzer list
+    ```
 
-### Docker
+-   **Call a Tool:**
 
-You can also run the server in a Docker container.
+    ```bash
+    mcp-mysql-analyzer call <tool_name> [argument1=value1] [argument2=value2] ...
+    ```
 
-1. Build the Docker image:
-   ```bash
-   docker build -t mcp-mysql-analyzer .
-   ```
+    **Example:**
 
-2. Run the Docker container:
-   ```bash
-   docker run -i --rm \
-     -e MYSQL_HOST=your_mysql_host \
-     -e MYSQL_PORT=your_mysql_port \
-     -e MYSQL_USER=your_mysql_user \
-     -e MYSQL_PASSWORD=your_mysql_password \
-     -e MYSQL_DB=your_mysql_database \
-     mcp-mysql-analyzer
-   ```
+    ```bash
+    mcp-mysql-analyzer call list_tables database=playbox
+    ```
 
-## Using the Client
+### As an MCP Server
 
-This project includes a command-line client to interact with the server.
+You can use this project as an MCP server in applications like Claude Desktop and Cursor.
 
-### Listing Available Tools
-
-To see a list of all available tools, run:
-
-```bash
-node dist/client.js list
-```
-
-### Calling a Tool
-
-To call a specific tool, use the `call` command, followed by the tool name and its arguments in `key=value` format.
-
-- **Syntax:**
-  ```bash
-  node dist/client.js call <tool_name> [argument1=value1] [argument2=value2] ...
-  ```
-
-- **Example: List tables in a database**
-  ```bash
-  node dist/client.js call list_tables database=playbox
-  ```
-
-- **Example: Find duplicates with a JSON argument**
-  ```bash
-  node dist/client.js call find_duplicates database=playbox table=clients columns='["display_name"]'
-  ```
-
-## Available Tools
-
-### Schema Tools
-
-- `connect(params)`: Connects to the MySQL database.
-- `list_databases()`: Lists all databases.
-- `list_tables(params)`: Lists all tables in a database.
-- `table_info(params)`: Gets detailed information about a table, including columns, indexes, and foreign keys.
-- `get_table_ddl(params)`: Gets the `CREATE TABLE` statement for a table.
-
-### Analysis Tools
-
-- `profile_table(params)`: Profiles a table with basic statistics, including row count, column stats, and sample data.
-- `analyze_numeric_columns(params)`: Analyzes all numeric columns in a table and returns statistics like min, max, average, and standard deviation.
-- `get_value_distribution(params)`: Gets the value distribution for a column.
-- `detect_outliers(params)`: Detects outliers in a numeric column using the Z-score method.
-- `find_duplicates(params)`: Finds duplicate rows based on a combination of columns.
-- `get_null_report(params)`: Generates a report of NULL values for all columns in a table.
-
-### Churn Tools
-
-These tools generate SQL queries for churn analysis. They return a SQL string that you can then execute.
-
-- `generate_churn_sql_basic(params)`: Generates SQL for a basic monthly churn analysis.
-- `generate_cohort_sql(params)`: Generates SQL for a cohort retention analysis.
-- `generate_survival_sql(params)`: Generates SQL for a Kaplan-Meier survival curve analysis.
-- `generate_mrr_churn_sql(params)`: Generates SQL for an MRR churn analysis.
-- `suggest_churn_mapping(params)`: Suggests potential user ID and timestamp columns for churn analysis.
-
-## Usage as an MCP Server
-
-Once published to npm, you can use this project as an MCP server with `npx`.
-
-### For Claude Desktop
+**For Claude Desktop:**
 
 Add the following to your `claude_desktop_config.json` file:
 
@@ -158,7 +73,7 @@ Add the following to your `claude_desktop_config.json` file:
       "command": "npx",
       "args": [
         "-y",
-        "@MrBozkay/mcp_mysql_analyser"
+        "@mrbozkay/mcp_mysql_analyser"
       ],
       "env": {
         "MYSQL_HOST": "127.0.0.1",
@@ -172,7 +87,7 @@ Add the following to your `claude_desktop_config.json` file:
 }
 ```
 
-### For Cursor IDE (Version: 0.47+)
+**For Cursor IDE (Version: 0.47+):**
 
 Add this to your `mcp.json`:
 
@@ -191,23 +106,36 @@ Add this to your `mcp.json`:
         "--",
         "npx",
         "-y",
-        "@MrBozkay/mcp_mysql_analyser"
+        "@mrbozkay/mcp_mysql_analyser"
       ]
     }
   }
 }
 ```
 
+## Available Tools
+
+- `connect(params)`: Connects to the MySQL database.
+- `list_databases()`: Lists all databases.
+- `list_tables(params)`: Lists all tables in a database.
+- `table_info(params)`: Gets detailed information about a table.
+- `get_table_ddl(params)`: Gets the `CREATE TABLE` statement for a table.
+- `profile_table(params)`: Profiles a table with basic statistics.
+- `analyze_numeric_columns(params)`: Analyzes numeric columns in a table.
+- `get_value_distribution(params)`: Gets the value distribution for a column.
+- `detect_outliers(params)`: Detects outliers in a numeric column.
+- `find_duplicates(params)`: Finds duplicate rows based on a combination of columns.
+- `get_null_report(params)`: Generates a report of NULL values for all columns in a table.
+- `generate_churn_sql_basic(params)`: Generates SQL for a basic monthly churn analysis.
+- `generate_cohort_sql(params)`: Generates SQL for a cohort retention analysis.
+- `generate_survival_sql(params)`: Generates SQL for a Kaplan-Meier survival curve analysis.
+- `generate_mrr_churn_sql(params)`: Generates SQL for an MRR churn analysis.
+- `suggest_churn_mapping(params)`: Suggests potential user ID and timestamp columns for churn analysis.
+
 ## Contributing
 
-Contributions are welcome! Please feel free to open an issue or submit a pull request.
+Contributions are welcome! Please feel free to open an issue or submit a pull request on the [GitHub repository](https://github.com/MrBozkay/mcp_mysql_analyser).
 
-## Development
+## License
 
-### Running Tests
-
-To run the test suite:
-
-```bash
-npm test
-```
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
