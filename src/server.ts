@@ -44,6 +44,11 @@ import {
   generateSurvivalSql,
   generateMrrChurnSql,
   suggestChurnMapping,
+  churnBasicParamsSchema,
+  cohortParamsSchema,
+  survivalParamsSchema,
+  mrrChurnParamsSchema,
+  churnMappingParamsSchema,
 } from './tools/churn.js';
 
 // Create server instance
@@ -239,7 +244,7 @@ const TOOLS = [
       required: ['user_table', 'user_id_col', 'activity_table', 'activity_user_col', 'activity_time_col'],
     },
     handler: generateChurnSqlBasic,
-    schema: z.object({}),
+    schema: churnBasicParamsSchema,
   },
   {
     name: 'generate_cohort_sql',
@@ -256,7 +261,7 @@ const TOOLS = [
       required: ['activity_table', 'activity_user_col', 'activity_time_col'],
     },
     handler: generateCohortSql,
-    schema: z.object({}),
+    schema: cohortParamsSchema,
   },
   {
     name: 'generate_survival_sql',
@@ -274,7 +279,7 @@ const TOOLS = [
       required: ['activity_table', 'activity_user_col', 'activity_time_col'],
     },
     handler: generateSurvivalSql,
-    schema: z.object({}),
+    schema: survivalParamsSchema,
   },
   {
     name: 'generate_mrr_churn_sql',
@@ -292,7 +297,7 @@ const TOOLS = [
       required: ['revenue_table', 'rev_user_col', 'rev_amount_col', 'rev_time_col'],
     },
     handler: generateMrrChurnSql,
-    schema: z.object({}),
+    schema: mrrChurnParamsSchema,
   },
   {
     name: 'suggest_churn_mapping',
@@ -306,7 +311,7 @@ const TOOLS = [
       required: ['tables'],
     },
     handler: suggestChurnMapping,
-    schema: z.object({}),
+    schema: churnMappingParamsSchema,
   },
 ];
 
