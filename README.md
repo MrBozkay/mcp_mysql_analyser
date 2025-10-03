@@ -103,7 +103,7 @@ Add the following to your `claude_desktop_config.json` file:
 }
 ```
 
-**For Cursor IDE (Version: 0.47+):**
+**For Cursor IDE:**
 
 Add this to your `mcp.json`:
 
@@ -113,21 +113,36 @@ Add this to your `mcp.json`:
     "MySQL": {
       "command": "npx",
       "args": [
-        "mcprunner",
-        "MYSQL_HOST=127.0.0.1",
-        "MYSQL_PORT=3306",
-        "MYSQL_USER=root",
-        "MYSQL_PASS=root",
-        "MYSQL_DB=demostore",
-        "--",
-        "npx",
         "-y",
         "@mrbozkay/mcp_mysql_analyser"
-      ]
+      ],
+      "env": {
+        "MYSQL_HOST": "127.0.0.1",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "root",
+        "MYSQL_PASS": "root",
+        "MYSQL_DB": "demostore"
+      }
     }
   }
 }
 ```
+
+**Environment Variables:**
+
+The server can be configured using the following environment variables:
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `MYSQL_HOST` | MySQL host | `localhost` |
+| `MYSQL_PORT` | MySQL port | `3306` |
+| `MYSQL_USER` | MySQL user | `root` |
+| `MYSQL_PASSWORD` | MySQL password | `''` |
+| `MYSQL_DB` | Default database | `null` |
+| `MYSQL_SSL` | Use SSL connection | `false` |
+| `MYSQL_CONNECTION_LIMIT` | MySQL connection limit | `5` |
+| `DEFAULT_SAMPLE_LIMIT` | Default sample limit for queries | `10000` |
+| `DEFAULT_QUERY_TIMEOUT` | Default query timeout in milliseconds | `15000` |
 
 ## Available Tools
 
