@@ -1,7 +1,7 @@
 {
   "name": "@mrbozkay/mcp_mysql_analyser",
-  "version": "1.0.2",
-  "description": "MCP-based MySQL analysis server for schema discovery, profiling, and analytics",
+  "version": "1.1.0",
+  "description": "Multi-platform MCP server for MySQL database analysis with natural language support for Kiro IDE, VSCode, Claude Desktop, Cursor, Gemini and other MCP clients",
   "main": "dist/server.js",
   "bin": {
     "mcp-mysql-analyzer": "dist/cli.js"
@@ -26,9 +26,17 @@
     "cli",
     "global",
     "kiro",
-    "claude"
+    "claude",
+    "vscode",
+    "cursor",
+    "gemini",
+    "ai",
+    "llm",
+    "database",
+    "natural-language",
+    "multi-platform"
   ],
-  "author": "MrBozkay",
+  "author": "MrBozkay <mrbozkay@example.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -41,7 +49,9 @@
   "files": [
     "dist/**/*",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "install-global.ps1",
+    "install-global.sh"
   ],
   "engines": {
     "node": ">=18.0.0"

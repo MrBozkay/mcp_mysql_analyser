@@ -69,9 +69,19 @@ chmod +x install-global.sh && ./install-global.sh
 
 ## Kurulum
 
-### GitHub'tan Direkt Kurulum (Önerilen)
+### NPM Global Kurulum (Önerilen)
 
-**Tüm platformlar için tek komut kurulum:**
+**En kolay yöntem - NPM Registry'den:**
+
+```bash
+npm install -g @mrbozkay/mcp_mysql_analyser
+```
+
+Kurulum sonrası `mcp-mysql-analyzer` komutu her yerden kullanılabilir hale gelir.
+
+### GitHub'tan Direkt Kurulum
+
+**Tüm platformlar için otomatik kurulum:**
 
 ```bash
 # Projeyi klonlayın ve kurun
@@ -99,14 +109,6 @@ cd mcp_mysql_analyser
 npm install && npm run build
 npm pack
 npm install -g ./mrbozkay-mcp_mysql_analyser-1.0.2.tgz --force
-```
-
-### NPM Registry Kurulumu (Gelecekte)
-
-Paket publish edildikten sonra:
-
-```bash
-npm install -g @mrbozkay/mcp_mysql_analyser
 ```
 
 ## Platform Konfigürasyonları
