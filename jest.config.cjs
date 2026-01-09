@@ -11,7 +11,7 @@ module.exports = {
     '/dist/',
     '\\.d\\.ts$',
     // Skip database tests in CI environment
-    ...(process.env.CI ? ['**/database.test.ts', '**/churn.test.ts'] : [])
+    ...(process.env.CI ? ['database\\.test\\.ts$', 'churn\\.test\\.ts$'] : [])
   ],
   moduleNameMapper: {
     '^(\.{1,2}/.*)\.js$': '$1',
