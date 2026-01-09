@@ -1,6 +1,6 @@
 {
   "name": "@mrbozkay/mcp_mysql_analyser",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Multi-platform MCP server for MySQL database analysis with natural language support for Kiro IDE, VSCode, Claude Desktop, Cursor, Gemini and other MCP clients",
   "main": "dist/server.js",
   "bin": {
