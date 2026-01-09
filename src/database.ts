@@ -106,7 +106,8 @@ export async function executeQuery<T = any>(
   const connection = await getConnection();
   try {
     if (database) {
-      await connection.execute(`USE \`${database}\``);
+      // Use query() instead of execute() for USE command as it's not supported in prepared statements
+      await connection.query(`USE \`${database}\``);
     }
     
     const [rows] = await connection.execute(sql, params);

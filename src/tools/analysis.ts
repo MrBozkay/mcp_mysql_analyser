@@ -23,7 +23,7 @@ export async function profileTable(params: SampleParams) {
   // Get sample rows
   const sampleRows = await executeReadOnlyQuery(
     `SELECT * FROM \`${table}\` LIMIT ?`,
-    [sample_limit],
+    [Number(sample_limit) || 100],
     database
   );
   
@@ -130,10 +130,10 @@ export async function analyzeNumericColumns(params: SampleParams) {
   
   const statsQuery = `
     SELECT ${statsParts.join(',')}
-    FROM (SELECT * FROM \`${table}\` LIMIT ${sample_limit}) AS sampled
+    FROM (SELECT * FROM \`${table}\` LIMIT ?) AS sampled
   `;
   
-  const statsResult = await executeReadOnlyQuery(statsQuery, [], database);
+  const statsResult = await executeReadOnlyQuery(statsQuery, [Number(sample_limit) || 100], database);
   const stats = statsResult[0] || {};
   
   // Parse results
@@ -175,7 +175,7 @@ export async function getValueDistribution(params: DistributionParams) {
   
   const distribution = await executeReadOnlyQuery(
     distQuery,
-    [topk],
+    [Number(topk) || 10],
     database
   );
   
@@ -253,14 +253,14 @@ export async function detectOutliers(params: OutlierParams) {
   `;
   
   const queryParams = [
-    Number(mean),
-    Number(stddev),
-    Number(mean),
-    Number(stddev),
-    Number(z_threshold),
-    Number(mean),
-    Number(stddev),
-    Number(limit),
+    Number(mean) || 0,
+    Number(stddev) || 1,
+    Number(mean) || 0,
+    Number(stddev) || 1,
+    Number(z_threshold) || 2,
+    Number(mean) || 0,
+    Number(stddev) || 1,
+    Number(limit) || 10,
   ];
 
   const outliers = await executeReadOnlyQuery(
@@ -303,7 +303,7 @@ export async function findDuplicates(params: DuplicatesParams) {
   
   const duplicateGroups = await executeReadOnlyQuery(
     duplicatesQuery,
-    [limit_groups],
+    [Number(limit_groups) || 10],
     database
   );
   
