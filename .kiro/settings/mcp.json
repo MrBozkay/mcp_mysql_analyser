@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "mcp-mysql-analyzer": {
+      "command": "node",
+      "args": [
+        "C:\\workspaces\\mcp_mysql_analyser\\dist\\server.js"
+      ],
+      "env": {
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "testuser",
+        "MYSQL_PASSWORD": "testpass",
+        "MYSQL_DB": "testdb",
+        "MYSQL_SSL": "false",
+        "MYSQL_CONNECTION_LIMIT": "5",
+        "DEFAULT_SAMPLE_LIMIT": "10000",
+        "DEFAULT_QUERY_TIMEOUT": "15000"
+      },
+      "autoApprove": [
+        "connect",
+        "list_databases",
+        "list_tables",
+        "table_info",
+        "get_table_ddl",
+        "profile_table"
+      ],
+      "disabled": false
+    }
+  }
+}

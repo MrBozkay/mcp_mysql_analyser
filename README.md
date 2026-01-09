@@ -5,170 +5,405 @@
 [![Last Commit](https://img.shields.io/github/last-commit/MrBozkay/mcp_mysql_analyser.svg)](https://github.com/MrBozkay/mcp_mysql_analyser/commits/main)
 [![Repo Size](https://img.shields.io/github/repo-size/MrBozkay/mcp_mysql_analyser.svg)](https://github.com/MrBozkay/mcp_mysql_analyser)
 
-**MCP Server for MySQL** is a powerful tool that bridges the gap between Large Language Models (LLMs) like Claude and your MySQL databases. It allows you to interact with your database using natural language, inspect schemas, execute queries, and perform data analysis without writing a single line of SQL.
+**MCP Server for MySQL**, Claude, Kiro IDE, VSCode, Gemini ve diğer MCP destekleyen platformlarda MySQL veritabanlarınızla doğal dil kullanarak etkileşim kurmanızı sağlayan güçlü bir araçtır. Şemaları inceleme, sorgular çalıştırma ve tek satır SQL yazmadan veri analizi yapma imkanı sunar.
 
-This tool is designed for developers, data analysts, and database administrators who want to leverage the power of AI for database management and exploration.
+Bu araç, veritabanı yönetimi ve keşfi için AI'nin gücünden yararlanmak isteyen geliştiriciler, veri analistleri ve veritabanı yöneticileri için tasarlanmıştır.
 
-## Table of Contents
+## 🚀 Hızlı Başlangıç
 
-- [Key Features](#key-features)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [As a Command-Line Tool](#as-a-command-line-tool)
-  - [As an MCP Server](#as-an-mcp-server)
-- [Available Tools](#available-tools)
-- [Contributing](#contributing)
-- [License](#license)
+**GitHub'tan direkt kurulum - Tüm MCP platformları için:**
 
-## Key Features
+```bash
+# 1. Projeyi klonlayın
+git clone https://github.com/MrBozkay/mcp_mysql_analyser.git
+cd mcp_mysql_analyser
 
-- **Natural Language Interaction:** Interact with your database using plain English.
-- **Schema Inspection:** Allow LLMs to understand your database structure without manual explanations.
-- **SQL Query Execution:** Send SQL queries directly to your MySQL database from your conversations with an LLM.
-- **Data Analysis:** Have an LLM analyze your database data and return insights.
+# 2. Otomatik kurulum (Windows)
+.\install-global.ps1
 
-## Installation
+# 2. Otomatik kurulum (Linux/Mac)
+chmod +x install-global.sh && ./install-global.sh
+```
 
-This package is hosted on the GitHub Packages registry. To install it, you first need to authenticate with GitHub Packages.
+**Artık tüm MCP destekleyen platformlarda MySQL veritabanınızla doğal dil ile konuşabilirsiniz!**
 
-1.  **Authenticate with GitHub Packages**
+### Desteklenen Platformlar:
+- 🎯 **Kiro IDE** - Yerleşik MCP desteği
+- 💻 **VSCode** - MCP uzantısı ile
+- 🤖 **Claude Desktop** - Anthropic'in resmi uygulaması
+- ✨ **Google Gemini** - MCP protokolü desteği
+- 🔧 **Cursor IDE** - AI kod editörü
+- 📱 **Diğer MCP Clients** - MCP protokolünü destekleyen herhangi bir uygulama
 
-    Create a `.npmrc` file in your home directory (or in your project directory) and add the following lines. Replace `YOUR_PAT` with a [Personal Access Token](https://github.com/settings/tokens) that has the `read:packages` scope.
+### Örnek Kullanım:
+- "Veritabanımdaki tabloları listele"
+- "Users tablosunun şemasını göster"
+- "En çok satılan ürünleri analiz et"
+- "Müşteri churn oranını hesapla"
 
-    ```
-    //npm.pkg.github.com/:_authToken=YOUR_PAT
-    @MrBozkay:registry=https://npm.pkg.github.com/
-    ```
+## İçindekiler
 
-2.  **Install the Package**
+- [Temel Özellikler](#temel-özellikler)
+- [Kurulum](#kurulum)
+- [Platform Konfigürasyonları](#platform-konfigürasyonları)
+  - [Kiro IDE](#kiro-ide)
+  - [Claude Desktop](#claude-desktop)
+  - [VSCode](#vscode)
+  - [Cursor IDE](#cursor-ide)
+  - [Google Gemini](#google-gemini)
+- [Çevre Değişkenleri](#çevre-değişkenleri)
+- [Kullanım](#kullanım)
+- [Mevcut Araçlar](#mevcut-araçlar)
+- [Katkıda Bulunma](#katkıda-bulunma)
+- [Lisans](#lisans)
 
-    You can now install the package globally using npm:
+## Temel Özellikler
 
-    ```bash
-    npm install -g @mrbozkay/mcp_mysql_analyser
-    ```
+- **🌐 Çoklu Platform Desteği:** Kiro IDE, VSCode, Claude Desktop, Gemini ve diğer MCP clients
+- **🗣️ Doğal Dil Etkileşimi:** Veritabanınızla sade Türkçe/İngilizce kullanarak etkileşim kurun
+- **🔍 Şema İncelemesi:** LLM'lerin manuel açıklama olmadan veritabanı yapınızı anlamasını sağlayın
+- **⚡ SQL Sorgu Çalıştırma:** LLM ile konuşmalarınızdan doğrudan MySQL veritabanınıza SQL sorguları gönderin
+- **📊 Veri Analizi:** LLM'nin veritabanı verilerinizi analiz etmesini ve içgörüler döndürmesini sağlayın
+- **🔧 Kolay Kurulum:** GitHub'tan tek komutla kurulum
+- **🛡️ Güvenli:** Auto-approve ile güvenli araçlar otomatik onaylanır
 
-    This will make the `mcp-mysql-analyzer` command available in your terminal.
+## Kurulum
 
-## Usage
+### GitHub'tan Direkt Kurulum (Önerilen)
 
-### As a Command-Line Tool
+**Tüm platformlar için tek komut kurulum:**
 
-You can use the `mcp-mysql-analyzer` command-line tool to interact with your database.
+```bash
+# Projeyi klonlayın ve kurun
+git clone https://github.com/MrBozkay/mcp_mysql_analyser.git
+cd mcp_mysql_analyser
 
--   **List Available Tools:**
+# Windows (PowerShell)
+.\install-global.ps1
 
-    ```bash
-    mcp-mysql-analyzer list
-    ```
+# Linux/Mac (Bash)
+chmod +x install-global.sh && ./install-global.sh
+```
 
--   **Call a Tool:**
+Bu kurulum:
+- ✅ Bağımlılıkları otomatik kurar
+- ✅ Projeyi derler
+- ✅ Global komut olarak kurar (`mcp-mysql-analyzer`)
+- ✅ Tüm MCP platformları için hazır hale getirir
 
-    ```bash
-    mcp-mysql-analyzer call <tool_name> [argument1=value1] [argument2=value2] ...
-    ```
+### Manuel Kurulum
 
-    **Example:**
+```bash
+git clone https://github.com/MrBozkay/mcp_mysql_analyser.git
+cd mcp_mysql_analyser
+npm install && npm run build
+npm pack
+npm install -g ./mrbozkay-mcp_mysql_analyser-1.0.2.tgz --force
+```
 
-    ```bash
-    mcp-mysql-analyzer call list_tables database=playbox
-    ```
+### NPM Registry Kurulumu (Gelecekte)
 
-### As an MCP Server
+Paket publish edildikten sonra:
 
-You can use this project as an MCP server in applications like Claude Desktop and Cursor.
+```bash
+npm install -g @mrbozkay/mcp_mysql_analyser
+```
 
-**For Claude Desktop:**
+## Platform Konfigürasyonları
 
-Add the following to your `claude_desktop_config.json` file:
+Kurulum sonrası her platform için özel konfigürasyon gerekir. Önce çevre değişkenlerinizi ayarlayın:
 
+### Çevre Değişkenleri Ayarlama
+
+**Windows (PowerShell):**
+```powershell
+$env:MYSQL_HOST="localhost"
+$env:MYSQL_PORT="3306"
+$env:MYSQL_USER="kullanici_adiniz"
+$env:MYSQL_PASSWORD="sifreniz"
+$env:MYSQL_DB="veritabani_adiniz"
+$env:MYSQL_SSL="false"
+```
+
+**Linux/Mac (Bash):**
+```bash
+export MYSQL_HOST=localhost
+export MYSQL_PORT=3306
+export MYSQL_USER=kullanici_adiniz
+export MYSQL_PASSWORD=sifreniz
+export MYSQL_DB=veritabani_adiniz
+export MYSQL_SSL=false
+```
+
+### Kiro IDE
+
+**Otomatik Kurulum (Önerilen):**
+```bash
+mcp-mysql-analyzer setup
+```
+
+**Manuel Konfigürasyon:**
+`.kiro/settings/mcp.json` dosyasını oluşturun:
 ```json
 {
   "mcpServers": {
-    "mcp_mysql_analyzer": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@mrbozkay/mcp_mysql_analyser"
-      ],
+    "mcp-mysql-analyzer": {
+      "command": "mcp-mysql-analyzer",
+      "args": ["server"],
       "env": {
-        "MYSQL_HOST": "127.0.0.1",
+        "MYSQL_HOST": "localhost",
         "MYSQL_PORT": "3306",
-        "MYSQL_USER": "your_username",
-        "MYSQL_PASS": "your_password",
-        "MYSQL_DB": "your_database"
+        "MYSQL_USER": "kullanici_adiniz",
+        "MYSQL_PASSWORD": "sifreniz",
+        "MYSQL_DB": "veritabani_adiniz"
+      },
+      "autoApprove": [
+        "connect", "list_databases", "list_tables", 
+        "table_info", "get_table_ddl", "profile_table"
+      ]
+    }
+  }
+}
+```
+
+### Claude Desktop
+
+`claude_desktop_config.json` dosyasına ekleyin:
+```json
+{
+  "mcpServers": {
+    "mysql-analyzer": {
+      "command": "mcp-mysql-analyzer",
+      "args": ["server"],
+      "env": {
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "kullanici_adiniz",
+        "MYSQL_PASSWORD": "sifreniz",
+        "MYSQL_DB": "veritabani_adiniz"
       }
     }
   }
 }
 ```
 
-**For Cursor IDE:**
+**Dosya Konumları:**
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+- **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Linux:** `~/.config/Claude/claude_desktop_config.json`
 
-Add this to your `mcp.json`:
+### VSCode
 
+VSCode MCP uzantısını kurun ve `settings.json`'a ekleyin:
 ```json
 {
-  "mcpServers": {
-    "MySQL": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@mrbozkay/mcp_mysql_analyser"
-      ],
+  "mcp.servers": {
+    "mysql-analyzer": {
+      "command": "mcp-mysql-analyzer",
+      "args": ["server"],
       "env": {
-        "MYSQL_HOST": "127.0.0.1",
+        "MYSQL_HOST": "localhost",
         "MYSQL_PORT": "3306",
-        "MYSQL_USER": "root",
-        "MYSQL_PASS": "root",
-        "MYSQL_DB": "demostore"
+        "MYSQL_USER": "kullanici_adiniz",
+        "MYSQL_PASSWORD": "sifreniz",
+        "MYSQL_DB": "veritabani_adiniz"
       }
     }
   }
 }
 ```
 
-**Environment Variables:**
+### Cursor IDE
 
-The server can be configured using the following environment variables:
+`mcp.json` dosyasını oluşturun:
+```json
+{
+  "mcpServers": {
+    "mysql-analyzer": {
+      "command": "mcp-mysql-analyzer",
+      "args": ["server"],
+      "env": {
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "kullanici_adiniz",
+        "MYSQL_PASSWORD": "sifreniz",
+        "MYSQL_DB": "veritabani_adiniz"
+      }
+    }
+  }
+}
+```
 
-| Variable | Description | Default |
-| --- | --- | --- |
-| `MYSQL_HOST` | MySQL host | `localhost` |
-| `MYSQL_PORT` | MySQL port | `3306` |
-| `MYSQL_USER` | MySQL user | `root` |
-| `MYSQL_PASSWORD` | MySQL password | `''` |
-| `MYSQL_DB` | Default database | `null` |
-| `MYSQL_SSL` | Use SSL connection | `false` |
-| `MYSQL_CONNECTION_LIMIT` | MySQL connection limit | `5` |
-| `DEFAULT_SAMPLE_LIMIT` | Default sample limit for queries | `10000` |
-| `DEFAULT_QUERY_TIMEOUT` | Default query timeout in milliseconds | `15000` |
+### Google Gemini
 
-## Available Tools
+Gemini'nin MCP konfigürasyon dosyasına ekleyin:
+```json
+{
+  "servers": {
+    "mysql-analyzer": {
+      "command": "mcp-mysql-analyzer",
+      "args": ["server"],
+      "environment": {
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": "3306",
+        "MYSQL_USER": "kullanici_adiniz",
+        "MYSQL_PASSWORD": "sifreniz",
+        "MYSQL_DB": "veritabani_adiniz"
+      }
+    }
+  }
+}
+```
 
-| Tool | Description |
+### Diğer MCP Clients
+
+Herhangi bir MCP protokolünü destekleyen client için:
+```json
+{
+  "command": "mcp-mysql-analyzer",
+  "args": ["server"],
+  "env": {
+    "MYSQL_HOST": "localhost",
+    "MYSQL_PORT": "3306",
+    "MYSQL_USER": "kullanici_adiniz",
+    "MYSQL_PASSWORD": "sifreniz",
+    "MYSQL_DB": "veritabani_adiniz"
+  }
+}
+```
+
+## Çevre Değişkenleri
+
+Server aşağıdaki çevre değişkenleri kullanılarak yapılandırılabilir:
+
+| Değişken | Açıklama | Varsayılan | Zorunlu |
+| --- | --- | --- | --- |
+| `MYSQL_HOST` | MySQL host adresi | `localhost` | ✅ |
+| `MYSQL_PORT` | MySQL port numarası | `3306` | ❌ |
+| `MYSQL_USER` | MySQL kullanıcı adı | `root` | ✅ |
+| `MYSQL_PASSWORD` | MySQL şifresi | `''` | ❌ |
+| `MYSQL_DB` | Varsayılan veritabanı | `null` | ❌ |
+| `MYSQL_SSL` | SSL bağlantısı kullan | `false` | ❌ |
+| `MYSQL_CONNECTION_LIMIT` | MySQL bağlantı limiti | `5` | ❌ |
+| `DEFAULT_SAMPLE_LIMIT` | Sorgular için varsayılan örnek limiti | `10000` | ❌ |
+| `DEFAULT_QUERY_TIMEOUT` | Varsayılan sorgu timeout (ms) | `15000` | ❌ |
+
+### Global Komutlar
+
+Kurulum sonrası kullanılabilir komutlar:
+
+```bash
+# MCP server başlat
+mcp-mysql-analyzer
+
+# Kiro IDE için otomatik kurulum
+mcp-mysql-analyzer setup
+
+# Konfigürasyonu doğrula
+mcp-mysql-analyzer validate
+
+# Çevre değişkenlerini göster
+mcp-mysql-analyzer env
+
+# Yardım göster
+mcp-mysql-analyzer --help
+```
+
+## Kullanım
+
+### Komut Satırı Aracı Olarak
+
+Global kurulum sonrası `mcp-mysql-analyzer` komutunu her yerden kullanabilirsiniz.
+
+```bash
+# MCP server başlat (varsayılan)
+mcp-mysql-analyzer
+
+# Yardım göster
+mcp-mysql-analyzer --help
+
+# Çevre değişkenlerini kontrol et
+mcp-mysql-analyzer env
+
+# Platform kurulumu (Kiro IDE)
+mcp-mysql-analyzer setup
+
+# Konfigürasyonu doğrula
+mcp-mysql-analyzer validate
+```
+
+### MCP Server Olarak
+
+Kurulum sonrası her MCP client'ta server otomatik olarak başlar ve şu araçları sağlar:
+
+**Temel Veritabanı İşlemleri:**
+- Veritabanlarını listele
+- Tabloları listele  
+- Tablo şemalarını incele
+- DDL ifadelerini al
+
+**Veri Analizi:**
+- Tablo profillemesi
+- Sayısal sütun analizi
+- Değer dağılımları
+- Aykırı değer tespiti
+- Yinelenen kayıt bulma
+- NULL değer raporları
+
+**Churn Analizi:**
+- Temel churn analizi
+- Kohort analizi
+- Hayatta kalma analizi
+- MRR churn analizi
+
+### Platform-Specific Kullanım
+
+**Kiro IDE'de:**
+```
+"MySQL veritabanımdaki tabloları göster"
+"Users tablosunun şemasını analiz et"
+"Son 30 günde kayıt olan kullanıcıları listele"
+```
+
+**Claude Desktop'ta:**
+```
+"Can you show me the schema of my products table?"
+"Analyze the sales data for trends"
+"Find duplicate entries in the customers table"
+```
+
+**VSCode'da:**
+```
+"List all tables in the inventory database"
+"Show me the top 10 customers by purchase amount"
+"Generate a churn analysis for user activity"
+```
+
+## Mevcut Araçlar
+
+| Araç | Açıklama |
 | --- | --- |
-| `connect(params)` | Connects to the MySQL database. |
-| `list_databases()` | Lists all databases. |
-| `list_tables(params)` | Lists all tables in a database. |
-| `table_info(params)` | Gets detailed information about a table. |
-| `get_table_ddl(params)` | Gets the `CREATE TABLE` statement for a table. |
-| `profile_table(params)` | Profiles a table with basic statistics. |
-| `analyze_numeric_columns(params)` | Analyzes numeric columns in a table. |
-| `get_value_distribution(params)` | Gets the value distribution for a column. |
-| `detect_outliers(params)` | Detects outliers in a numeric column. |
-| `find_duplicates(params)` | Finds duplicate rows based on a combination of columns. |
-| `get_null_report(params)` | Generates a report of NULL values for all columns in a table. |
-| `generate_churn_sql_basic(params)` | Generates SQL for a basic monthly churn analysis. |
-| `generate_cohort_sql(params)` | Generates SQL for a cohort retention analysis. |
-| `generate_survival_sql(params)` | Generates SQL for a Kaplan-Meier survival curve analysis. |
-| `generate_mrr_churn_sql(params)` | Generates SQL for an MRR churn analysis. |
-| `suggest_churn_mapping(params)` | Suggests potential user ID and timestamp columns for churn analysis. |
+| `connect(params)` | MySQL veritabanına bağlanır. |
+| `list_databases()` | Tüm veritabanlarını listeler. |
+| `list_tables(params)` | Bir veritabanındaki tüm tabloları listeler. |
+| `table_info(params)` | Bir tablo hakkında detaylı bilgi alır. |
+| `get_table_ddl(params)` | Bir tablo için `CREATE TABLE` ifadesini alır. |
+| `profile_table(params)` | Temel istatistiklerle bir tabloyu profiller. |
+| `analyze_numeric_columns(params)` | Bir tablodaki sayısal sütunları analiz eder. |
+| `get_value_distribution(params)` | Bir sütun için değer dağılımını alır. |
+| `detect_outliers(params)` | Sayısal bir sütundaki aykırı değerleri tespit eder. |
+| `find_duplicates(params)` | Sütun kombinasyonuna dayalı yinelenen satırları bulur. |
+| `get_null_report(params)` | Bir tablodaki tüm sütunlar için NULL değerlerin raporunu oluşturur. |
+| `generate_churn_sql_basic(params)` | Temel aylık churn analizi için SQL oluşturur. |
+| `generate_cohort_sql(params)` | Kohort tutma analizi için SQL oluşturur. |
+| `generate_survival_sql(params)` | Kaplan-Meier hayatta kalma eğrisi analizi için SQL oluşturur. |
+| `generate_mrr_churn_sql(params)` | MRR churn analizi için SQL oluşturur. |
+| `suggest_churn_mapping(params)` | Churn analizi için potansiyel kullanıcı ID ve zaman damgası sütunları önerir. |
 
-## Contributing
+## Katkıda Bulunma
 
-Contributions are welcome! Please feel free to open an issue or submit a pull request on the [GitHub repository](https://github.com/MrBozkay/mcp_mysql_analyser).
+Katkılar memnuniyetle karşılanır! Lütfen [GitHub repository](https://github.com/MrBozkay/mcp_mysql_analyser)'sinde bir issue açmaktan veya pull request göndermekten çekinmeyin.
 
-## License
+## Lisans
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Bu proje MIT Lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasına bakın.

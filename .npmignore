@@ -1,0 +1,85 @@
+# Source files
+src/
+*.ts
+!*.d.ts
+
+# Development files
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+
+# Test files
+**/*.test.*
+**/*.spec.*
+__tests__/
+coverage/
+.nyc_output/
+
+# Development dependencies
+node_modules/
+.npm/
+.yarn/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD files
+.github/
+.travis.yml
+.circleci/
+.gitlab-ci.yml
+
+# Documentation (keep README.md)
+docs/
+*.md
+!README.md
+
+# Kiro specific files
+.kiro/
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# NPM debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Jest
+jest.config.*

@@ -20,6 +20,9 @@ import {
   duplicatesParamsSchema,
   sqlParamsSchema,
   columnParamsSchema,
+  envValidation,
+  config,
+  MCPConfigManager,
 } from './config.js';
 
 import { closePool } from './database.js';
@@ -383,13 +386,47 @@ process.on('SIGTERM', async () => {
 
 // Start server
 async function main() {
+  // Validate environment configuration on startup
+  if (!envValidation.isValid) {
+    console.error('❌ Environment validation failed:');
+    envValidation.errors.forEach(error => console.error(`  - ${error}`));
+    
+    if (envValidation.warnings.length > 0) {
+      console.error('⚠️  Warnings:');
+      envValidation.warnings.forEach(warning => console.error(`  - ${warning}`));
+    }
+    
+    console.error('\n💡 Please check your .env file or environment variables');
+    process.exit(1);
+  }
+  
+  // Log warnings if any
+  if (envValidation.warnings.length > 0) {
+    console.error('⚠️  Configuration warnings:');
+    envValidation.warnings.forEach(warning => console.error(`  - ${warning}`));
+  }
+  
+  // Log successful configuration
+  console.error('✅ Environment configuration validated successfully');
+  console.error(`📊 MySQL connection: ${config.MYSQL_USER}@${config.MYSQL_HOST}:${config.MYSQL_PORT}`);
+  console.error(`🔧 Connection pool limit: ${config.MYSQL_CONNECTION_LIMIT}`);
+  console.error(`📝 Default sample limit: ${config.DEFAULT_SAMPLE_LIMIT}`);
+  
   const transport = new StdioServerTransport();
   await server.connect(transport);
   
-  console.error('MCP MySQL Analyzer Server started');
+  console.error('🚀 MCP MySQL Analyzer Server started successfully');
+  
+  // Generate MCP configuration for Kiro IDE (optional, for reference)
+  try {
+    const mcpConfig = MCPConfigManager.generateKiroConfig();
+    console.error('📋 MCP Configuration generated (use MCPConfigManager.setupKiroConfig() to write to file)');
+  } catch (error) {
+    console.error('⚠️  Could not generate MCP configuration:', (error as Error).message);
+  }
 }
 
 main().catch((error) => {
-  console.error('Server error:', error);
+  console.error('💥 Server startup error:', error);
   process.exit(1);
 });

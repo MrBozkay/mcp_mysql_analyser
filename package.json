@@ -1,17 +1,20 @@
 {
   "name": "@mrbozkay/mcp_mysql_analyser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP-based MySQL analysis server for schema discovery, profiling, and analytics",
-  "main": "dist/index.js",
+  "main": "dist/server.js",
   "bin": {
-    "mcp-mysql-analyzer": "dist/server.js"
+    "mcp-mysql-analyzer": "dist/cli.js"
   },
   "type": "module",
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/server.ts",
     "start": "node dist/server.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "setup-mcp": "tsx src/setup-mcp.ts",
+    "prepublishOnly": "npm run build",
+    "postinstall": "echo 'MCP MySQL Analyzer installed successfully! Use: mcp-mysql-analyzer --help'"
   },
   "keywords": [
     "mcp",
@@ -19,9 +22,13 @@
     "analytics",
     "profiling",
     "schema",
-    "discovery"
+    "discovery",
+    "cli",
+    "global",
+    "kiro",
+    "claude"
   ],
-  "author": "",
+  "author": "MrBozkay",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -30,6 +37,14 @@
   "homepage": "https://github.com/MrBozkay/mcp_mysql_analyser#readme",
   "bugs": {
     "url": "https://github.com/MrBozkay/mcp_mysql_analyser/issues"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.18.2",
@@ -41,6 +56,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^24.6.2",
     "cross-env": "^10.1.0",
+    "fast-check": "^4.5.3",
     "jest": "^30.2.0",
     "ts-jest": "^29.4.4",
     "tsx": "^4.20.6",
