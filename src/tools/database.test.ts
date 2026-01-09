@@ -15,12 +15,24 @@ describe('Database Connection', () => {
       ssl: config.MYSQL_SSL === 'true',
     };
 
-    const result = await connect(connectionParams);
-
-    expect(result.ok).toBe(true);
-    expect(result.using.host).toBe(config.MYSQL_HOST);
-    expect(result.using.database).toBe(config.MYSQL_DB);
-  }, 10000);
+    // Retry connection up to 3 times with delay for CI environments
+    let lastError;
+    for (let i = 0; i < 3; i++) {
+      try {
+        const result = await connect(connectionParams);
+        expect(result.ok).toBe(true);
+        expect(result.using.host).toBe(config.MYSQL_HOST);
+        expect(result.using.database).toBe(config.MYSQL_DB);
+        return; // Success, exit test
+      } catch (error) {
+        lastError = error;
+        if (i < 2) { // Don't wait after last attempt
+          await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
+        }
+      }
+    }
+    throw lastError; // Re-throw the last error if all attempts failed
+  }, 30000);
 });
 
 describe('Schema Tools', () => {

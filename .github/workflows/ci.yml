@@ -10,6 +10,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
@@ -26,6 +36,22 @@ jobs:
         
     - name: Install dependencies
       run: npm ci
+      
+    - name: Wait for MySQL
+      run: |
+        for i in {1..30}; do
+          if mysqladmin ping -h"127.0.0.1" -P"3306" -u"root" -p"root" --silent; then
+            echo "MySQL is ready!"
+            break
+          fi
+          echo "Waiting for MySQL... ($i/30)"
+          sleep 2
+        done
+        
+    - name: Setup test database
+      run: |
+        mysql -h"127.0.0.1" -P"3306" -u"root" -p"root" -e "CREATE DATABASE IF NOT EXISTS test;"
+        mysql -h"127.0.0.1" -P"3306" -u"root" -p"root" -e "SHOW DATABASES;"
       
     - name: Run linting
       run: npm run build # TypeScript compilation serves as linting
