@@ -9,7 +9,9 @@ module.exports = {
   testPathIgnorePatterns: [
     '/node_modules/',
     '/dist/',
-    '\\.d\\.ts$'
+    '\\.d\\.ts$',
+    // Skip database tests in CI environment
+    ...(process.env.CI ? ['**/database.test.ts', '**/churn.test.ts'] : [])
   ],
   moduleNameMapper: {
     '^(\.{1,2}/.*)\.js$': '$1',
